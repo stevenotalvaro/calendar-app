@@ -5,7 +5,8 @@ export const Navbar = () => {
         <div className="navbar navbar-dark bg-dark mb-4">
             <span className="navbar-brand">Miguelito</span>
             <button className="btn btn-outline-danger">
-                <span>Salir</span>
+                <i className="fas fa-sign-out-alt"></i>
+                <span> Salir</span>
             </button>
         </div>
     )
