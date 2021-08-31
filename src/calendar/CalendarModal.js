@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import Modal from 'react-modal'
 import DateTimePicker from 'react-datetime-picker'
 import moment from 'moment'
+import Swal from 'sweetalert2'
 const customStyles = {
     content: {
         top: '50%',
@@ -20,6 +21,8 @@ const later = now.clone().add(1, 'hours')
 export const CalendarModal = () => {
     const [dateStart, setDateStart] = useState(now.toDate())
     const [dateEnd, setDateEnd] = useState(later.toDate())
+    const [titleValid, setTitleValid] = useState(true)
+
     const [formValues, setFormValues] = useState({
         title: 'Evento',
         notes: '',
@@ -27,7 +30,7 @@ export const CalendarModal = () => {
         end: later.toDate(),
     })
 
-    const {title, notes} = formValues
+    const {title, notes, start, end} = formValues
 
     const handleInputChange = ({target}) => {
         setFormValues({
@@ -54,7 +57,23 @@ export const CalendarModal = () => {
 
     const handleSubmitForm = e => {
         e.preventDefault()
-        console.log(formValues)
+
+        const momentStart = moment(start)
+        const momentEnd = moment(end)
+
+        if (momentStart.isSameOrAfter(momentEnd)) {
+            return Swal.fire(
+                'Error',
+                'The end date must be greater than the start date',
+                'error',
+            )
+        }
+        if (title.trim().length < 2) {
+            return setTitleValid(false)
+        }
+
+        setTitleValid(true)
+        closeModal()
     }
     return (
         <Modal
@@ -92,7 +111,9 @@ export const CalendarModal = () => {
                     <label>Title and notes</label>
                     <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${
+                            !titleValid && 'is-invalid'
+                        }`}
                         placeholder="Title of event"
                         name="title"
                         autoComplete="off"
