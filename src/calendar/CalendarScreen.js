@@ -45,7 +45,6 @@ export const CalendarScreen = () => {
     }
 
     const onDoubleClick = e => {
-        console.log(e)
         dispatch(uiOpenModal())
     }
 
