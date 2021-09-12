@@ -24,6 +24,7 @@ export const CalendarScreen = () => {
     )
 
     const dispatch = useDispatch()
+    const {uid} = useSelector(state => state.auth)
     const {events, activeEvent} = useSelector(state => state.calendar)
 
     useEffect(() => {
@@ -32,7 +33,7 @@ export const CalendarScreen = () => {
 
     const eventStyleGetter = (event, start, end, isSelected) => {
         const style = {
-            backgroundColor: '#367CF7',
+            backgroundColor: uid === event.user._id ? '#367CF7' : '#455660',
             borderRadius: '0px',
             opacity: 0.8,
             display: 'block',
