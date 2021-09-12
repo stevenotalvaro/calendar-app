@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Navbar} from '../ui/Navbar'
 
 import {Calendar, momentLocalizer} from 'react-big-calendar'
@@ -8,7 +8,11 @@ import {CalendarEvent} from './CalendarEvent'
 import {CalendarModal} from './CalendarModal'
 import {useDispatch, useSelector} from 'react-redux'
 import {uiOpenModal} from '../actions/ui'
-import {eventClearActiveEvent, eventSetActive} from '../actions/events'
+import {
+    eventClearActiveEvent,
+    eventSetActive,
+    eventStartLoading,
+} from '../actions/events'
 import {AddNewFab} from '../types/AddNewFab'
 import {DeleteeventFab} from '../ui/DeleteeventFab'
 
@@ -21,6 +25,11 @@ export const CalendarScreen = () => {
 
     const dispatch = useDispatch()
     const {events, activeEvent} = useSelector(state => state.calendar)
+
+    useEffect(() => {
+        dispatch(eventStartLoading())
+    }, [dispatch])
+
     const eventStyleGetter = (event, start, end, isSelected) => {
         const style = {
             backgroundColor: '#367CF7',
