@@ -33,16 +33,15 @@ export const startRegister = (email, password, name) => {
         if (body.ok) {
             localStorage.setItem('token', body.token)
             localStorage.setItem('token-init-date', new Date().getTime())
+            dispatch(
+                login({
+                    uid: body.uid,
+                    name: body.name,
+                }),
+            )
         } else {
             return Swal.fire('Error', body.msg, 'error')
         }
-
-        dispatch(
-            login({
-                uid: body.uid,
-                name: body.name,
-            }),
-        )
     }
 }
 
@@ -61,7 +60,6 @@ export const startCheking = () => {
                 }),
             )
         } else {
-            return Swal.fire('Error', body.msg, 'error')
             dispatch(chekingFinish())
         }
     }
@@ -73,3 +71,12 @@ const login = user => ({
     type: types.authLogin,
     payload: user,
 })
+
+export const startLogout = () => {
+    return dispatch => {
+        localStorage.clear()
+        dispatch(logout())
+    }
+}
+
+const logout = () => ({type: types.authLogout})
