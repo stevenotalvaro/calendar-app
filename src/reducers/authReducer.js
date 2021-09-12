@@ -13,6 +13,11 @@ export const authReducer = (state = initialState, action) => {
                 ...action.payload,
             }
 
+        case types.authCheckingFinish:
+            return {
+                ...state,
+                cheking: false,
+            }
         default:
             return state
     }
